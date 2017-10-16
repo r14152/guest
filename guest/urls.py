@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^accounts/login/$', views.login),
     url(r'^search_name/$', views.search_name),
     url(r'^search_phone/$', views.search_phone),
+    url(r'^sign_index/(?P<eid>[0-9]+)/$', views.sign_index),
 ]

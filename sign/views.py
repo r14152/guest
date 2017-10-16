@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -76,3 +76,9 @@ def search_phone(request):
     except EmptyPage:                      #如果页面超出总页数，那么显示最后一页
         contacts = paginator.page(paginator.num_pages)
     return render(request, "guest_manage.html", {"user": username, "guests": contacts})
+
+# 签到页面
+@login_required
+def sign_index(request, eid):
+    event =get_object_or_404(Event, id=eid)
+    return render(request, 'sign_index.html', {'event': event})
