@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^$', views.login),
     url(r'^accounts/login/$', views.login),
     url(r'^search_name/$', views.search_name),
+    url(r'^search_realname/$', views.search_realname),
 ]

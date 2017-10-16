@@ -21,7 +21,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">{{ user }}</a></li>
-                    <li><a href="/logout/">退出</a></li>
+                    <li><a href="/login/">退出</a></li>
                 </ul>
             </div>
         </div>
@@ -30,9 +30,9 @@
     <!-- 嘉宾搜索栏 -->
     <div class="page-header" style="padding-top: 60px">
         <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form" method="get" action="/search_name/">
+            <form class="navbar-form" method="get" action="/search_realname/">
                 <div class="form-group">
-                    <input name="name" type="text" placeholder="名称" class="form-control">
+                    <input name="realname" type="text" placeholder="姓名" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">搜索</button>
             </form>
@@ -45,7 +45,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>id</th><th>名称</th><th>手机</th><th>Email</th><th>签到</th><th>发布会</th>
+                    <th>id</th><th>姓名</th><th>手机</th><th>Email</th><th>签到</th><th>发布会</th>
                 </tr>
                 </thead>
                 <tbody>
