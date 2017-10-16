@@ -17,3 +17,11 @@ class ModelTest(TestCase):
         result = Guest.objects.get(phone="13711001101")
         self.assertEqual(result.realname, "alen")
         self.assertFalse(result.sign)
+
+class IndexPageTest(TestCase):
+    '''²âÊÔindexµÇÂ¼Ê×Ò³'''
+    def test_index_page_renders_index_template(self):
+        '''²âÊÔindexÊÓÍ¼'''
+        response = self.client.get('/index/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
