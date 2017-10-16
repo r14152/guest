@@ -14,7 +14,7 @@ def index(request):
 def login(request):
     return render(request, "login.html")
 
-#登录动作
+#登录动作试图
 def login_action(request):
     if request.method == 'POST':
         username = request.POST.get('username', '')
