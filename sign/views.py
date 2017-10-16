@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from sign.models import Event, Guest
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #https://github.com/defnngj/guest
 
 # Create your views here.
@@ -39,7 +40,15 @@ def event_manage(request):
 def guest_manage(request):
     guest_list = Guest.objects.all()
     username =request.session.get('user', '')
-    return render(request, "guest_manage.html", {"user": username, "guests": guest_list})
+    paginator = Paginator(guest_list, 10)   #把查出来的所有列，划分为每页显示10条
+    page = request.GET.get('page')         #通过get请求当前要显示第几页
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:               #如果页面不是整数，那么显示第一页
+        contacts = paginator.page(1)
+    except EmptyPage:                      #如果页面超出总页数，那么显示最后一页
+        contacts = paginator.page(paginator.num_pages)
+    return render(request, "guest_manage.html", {"user": username, "guests": contacts})
 
 #发布会名称搜索
 @login_required
@@ -49,10 +58,21 @@ def search_name(request):
     event_list = Event.objects.filter(name__contains=search_name)
     return render(request, "event_manage.html", {"user": username, "events": event_list})
 
-#嘉宾名字搜索
+#嘉宾手机号搜索
 @login_required
-def search_realname(request):
+def search_phone(request):
     username = request.session.get('user', '')
-    search_realname = request.GET.get("realname", "")
-    guest_list = Guest.objects.filter(realname__contains=search_realname)
-    return render(request, "guest_manage.html", {"user": username, "guests": guest_list})
+    search_phone = request.GET.get("phone", "")
+    search_name_bytes = search_phone.encode(encoding="utf-8")
+    guest_list = Guest.objects.filter(phone__contains=search_name_bytes)
+    username = request.session.get('user', '')
+
+    paginator = Paginator(guest_list, 10)   #把查出来的所有列，划分为每页显示2条
+    page = request.GET.get('page')         #通过get请求当前要显示第几页
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:               #如果页面不是整数，那么显示第一页
+        contacts = paginator.page(1)
+    except EmptyPage:                      #如果页面超出总页数，那么显示最后一页
+        contacts = paginator.page(paginator.num_pages)
+    return render(request, "guest_manage.html", {"user": username, "guests": contacts})
