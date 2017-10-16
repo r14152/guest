@@ -84,9 +84,9 @@ DATABASES = {
         'NAME': 'guest',
         'USER': 'root',
         'PASSWORD': 'lh12345678',
-        'OPTIONS': {
-            'init_command': "SET sql_mode= 'STRICT_TRANS_TABLES'",
-        },
+        #'OPTIONS': {
+        #    'init_command': "SET sql_mode= 'STRICT_TRANS_TABLES'",
+        #},
     }
 }
 
