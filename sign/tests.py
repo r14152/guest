@@ -107,8 +107,8 @@ class GuestManageTest(TestCase):
 class SignIndexActionTest(TestCase):
     def setUp(self):
         User.objects.create_user('admin', 'admin@mail.com', 'admin123456')
-        Event.objects.create(id=1, name="xiaomi5", limit=2000, address='beijing', status=1, start_time='2017-8-10 12:30:00')
-        Event.objects.create(id=2, name="oneplus4", limit=2000, address='shenzhen', status=1, start_time='2017-6-10 12:30:00')
+        Event.objects.create(id=1, name="xiaomi5", limit=2000, address='beijing', status=1, start_time='2017-8-10 12:30:00.000000')
+        Event.objects.create(id=2, name="oneplus4", limit=2000, address='shenzhen', status=1, start_time='2017-6-10 12:30:00.000000')
         Guest.objects.create(realname="alen", phone=18611001100, email='alen@mail.com', sign=0, event_id=1)
         Guest.objects.create(realname="una", phone=18611001101, email='una@mail.com', sign=1, event_id=2)
         login_user = {'username': 'admin', 'password': 'admin123456'}
