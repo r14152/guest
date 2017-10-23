@@ -100,8 +100,11 @@ def add_guest(request):
     if n_time >= e_time:
         return JsonResponse({'status': 10025, 'message': 'event has started'})
     try:
-        Guest.objects.create(realname=realname,phone=int(phone),email=email,sign=0,event_id=int(eid))
+        Guest.objects.create(realname=realname, phone=int(phone), email=email, sign=0, event_id=int(eid))
     except IntegrityError:
         return JsonResponse({'status': 10026, 'message': 'the event guest phone number repeat'})
     return JsonResponse({'status': 200, 'message': 'add guest success'})
+
+#²éÑ¯¼Î±ö½Ó¿Ú
+
 
