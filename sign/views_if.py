@@ -1,7 +1,9 @@
 __author__ = 'lihao'
 from django.http import JsonResponse
-from sign.models import Event
+from sign.models import Event, Guest
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.db.utils import IntegrityError
+import time
 
 #添加发布会接口
 def add_event(request):
@@ -49,6 +51,7 @@ def get_event_list(request):
             event['address'] = result.address
             event['start_time'] = result.start_time
             return JsonResponse({'status': 200, 'message': 'success', 'data': event})
+
     if name != '':
         datas = []
         results = Event.objects.filter(name__contains=name)
@@ -64,3 +67,5 @@ def get_event_list(request):
             return JsonResponse({'status': 200, 'message': 'success', 'data': datas})
         else:
             return JsonResponse({'status': 10022, 'message': 'query result is empty'})
+
+
