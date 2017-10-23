@@ -68,4 +68,40 @@ def get_event_list(request):
         else:
             return JsonResponse({'status': 10022, 'message': 'query result is empty'})
 
+#Ìí¼Ó¼Î±ö½Ó¿Ú
+def add_guest(request):
+    eid = request.POST.get('eid', '')
+    realname = request.POST.get('realname', '')
+    phone = request.POST.get('phone', '')
+    email = request.POST.get('email', '')
+
+    if eid == '' or realname == '' or phone == '':
+        return JsonResponse({'status': 10021, 'message': 'parameter error'})
+    result = Event.objects.filter(id=eid)
+    if not result:
+        return JsonResponse({'status': 10022, 'message': 'event id null'})
+    result = Event.objects.get(id=eid).status
+    if not result:
+        return JsonResponse({'status': 10023, 'message': 'event id is not available'})
+
+    event_limit = Event.objects.get(id=eid).limit
+    guest_limit = Guest.objects.filter(event_id=eid)
+    if len(guest_limit) >= event_limit:
+        return JsonResponse({'status': 10024, 'message': 'event number is full'})
+    event_time = Event.objects.get(id=eid).start_time
+    etime = str(event_time).split(".")[0]
+    timeArray = time.strptime(etime, "%Y-%m-%d %H:%M:%S")
+    e_time = int(time.mktime(timeArray))
+
+    now_time = str(time.time())
+    ntime = now_time.split(".")[0]
+    n_time = int(ntime)
+
+    if ntime >= etime:
+        return JsonResponse({'status': 10025, 'message': 'event has started'})
+    try:
+        Guest.objects.create(realname=realname,phone=int(phone),email=email,sign=0,event_id=int(eid))
+    except IntegrityError:
+        return JsonResponse({'status': 10026, 'message': 'the event guest phone number repeat'})
+    return JsonResponse({'status': 200, 'message': 'add guest success'})
 
