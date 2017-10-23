@@ -97,7 +97,7 @@ def add_guest(request):
     ntime = now_time.split(".")[0]
     n_time = int(ntime)
 
-    if ntime >= etime:
+    if n_time >= e_time:
         return JsonResponse({'status': 10025, 'message': 'event has started'})
     try:
         Guest.objects.create(realname=realname,phone=int(phone),email=email,sign=0,event_id=int(eid))
