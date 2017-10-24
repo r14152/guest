@@ -106,5 +106,36 @@ def add_guest(request):
     return JsonResponse({'status': 200, 'message': 'add guest success'})
 
 #²éÑ¯¼Î±ö½Ó¿Ú
+def get_guest_list(request):
+    eid = request.GET.get("eid", "")
+    phone = request.GET.get("phone", "")
 
+    if eid == '':
+        return JsonResponse({'status': 10021, 'message': 'eid can not be empty'})
+    if eid != '' and phone == '':
+        datas = []
+        results = Guest.objects.filter(event_id=eid)
+        if results:
+            for r in results:
+                guest = {}
+                guest['realname'] = r.realname
+                guest['phone'] = r.phone
+                guest['email'] = r.email
+                guest['sign'] = r.sign
+                datas.append(guest)
+            return JsonResponse({'status': 200, 'message': 'success', 'data': datas})
+        else:
+            return JsonResponse({'status': 10022, 'message': 'query result is empty'})
 
+    if eid != '' and phone != '':
+        guest = {}
+        try:
+            result = Guest.objects.get(phone=phone, event_id=eid)
+        except ObjectDoesNotExist:
+            return JsonResponse({'status': 10022, 'message': 'query result is empty'})
+        else:
+            guest['realname'] = result.realname
+            guest['phone'] = result.phone
+            guest['email'] = result.email
+            guest['sign'] = result.sign
+            return JsonResponse({'status': 200, 'message': 'success', 'data': guest})
